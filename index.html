@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#09090c">
+  <meta name="description" content="A calm, minimal PCM study tracker.">
+  <title>Focusroom — Study • Track • Achieve</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icons/icon-192.png">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <style>
+    :root{--bg:#09090c;--panel:#111116;--panel2:#15151c;--line:#292832;--text:#f0eef7;--muted:#9996a8;--accent:#b9a4ff;--accent2:#8e78d6;--good:#78cba3;--danger:#e38c99;--r:22px}
+    *{box-sizing:border-box}html{background:var(--bg);scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 50% -20%,#1b1727 0,transparent 45%),var(--bg);color:var(--text);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+    button,input,select,textarea{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+    .app{max-width:1120px;margin:auto;padding:22px 22px 104px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:28px}.brand{display:flex;align-items:center;gap:12px}.logo{width:42px;height:42px;flex:none}.brandname{font-family:Georgia,serif;letter-spacing:.24em;font-size:17px}.tag{font-size:10px;color:var(--muted);letter-spacing:.22em;margin-top:2px}.pill{border:1px solid var(--line);border-radius:999px;padding:8px 13px;color:var(--muted);font-size:12px;background:#111116}
+    .hero{text-align:center;padding:12px 0 24px}.hero .logo{width:72px;height:72px;margin-bottom:8px}.hero h1{font:26px Georgia,serif;letter-spacing:.34em;margin:0 0 7px}.hero p{font-size:10px;letter-spacing:.34em;color:var(--muted);margin:0}
+    .grid{display:grid;gap:16px}.stats{grid-template-columns:repeat(3,1fr);margin-bottom:16px}.card{background:linear-gradient(145deg,rgba(24,23,31,.94),rgba(13,13,18,.96));border:1px solid var(--line);border-radius:var(--r);padding:19px;box-shadow:0 12px 36px #0003}.cardhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}.eyebrow{font-size:11px;color:var(--muted);letter-spacing:.13em;text-transform:uppercase}.big{font-size:30px;font-weight:650;letter-spacing:-.04em}.muted{color:var(--muted)}.small{font-size:12px;color:var(--muted)}.progress{height:7px;background:#292832;border-radius:20px;overflow:hidden;margin-top:12px}.progress span{display:block;height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:20px;transition:width .2s}
+    .subjects{grid-template-columns:repeat(3,1fr);margin-bottom:16px}.subject{min-height:142px;cursor:pointer;transition:border-color .15s,transform .15s}.subject:hover{border-color:#65568d;transform:translateY(-2px)}.subject .symbol{font:28px Georgia,serif;color:var(--accent);margin-bottom:6px}.subject h3{margin:0;font-size:15px}.subject .count{font-size:13px;color:var(--muted);margin-top:2px}
+    .maincols{grid-template-columns:1.1fr .9fr;align-items:start}.taskrow{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #24232b}.taskrow:last-child{border:0}.taskrow input{accent-color:var(--accent);width:17px;height:17px}.taskrow.done .tasklabel{text-decoration:line-through;color:#777483}.tasklabel{flex:1;overflow-wrap:anywhere}.iconbtn{background:none;border:0;color:var(--muted);font-size:18px;padding:4px 8px}.addrow{display:flex;gap:8px;margin-top:12px}.field{min-width:0;width:100%;background:#0b0b10;border:1px solid var(--line);color:var(--text);border-radius:12px;padding:11px 12px}.btn{border:1px solid var(--line);background:#1b1923;color:var(--text);border-radius:12px;padding:10px 14px;font-weight:600}.btn.primary{background:var(--accent);color:#171321;border-color:var(--accent)}.btn.ghost{background:transparent}.btn:disabled{opacity:.5;cursor:not-allowed}
+    .timer{text-align:center}.timerselect{max-width:220px;margin:0 auto 16px}.clock{font:clamp(48px,8vw,68px) Georgia,serif;letter-spacing:.04em;margin:8px 0 14px}.timerbuttons{display:flex;justify-content:center;gap:9px;flex-wrap:wrap}.subjectgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.subjectmini{padding:13px;border-radius:15px;border:1px solid var(--line);background:#101016;text-align:left;color:var(--text)}.subjectmini.active{border-color:var(--accent);background:#1c1827}.subjectmini b{display:block}.subjectmini span{font-size:11px;color:var(--muted)}
+    .section{display:none}.section.active{display:block}.sectiontitle{font:24px Georgia,serif;letter-spacing:.04em;margin:8px 0 5px}.sectionintro{color:var(--muted);margin:0 0 20px;font-size:13px}.tabs{display:flex;gap:8px;overflow:auto;margin:0 0 18px;padding-bottom:4px}.tab{white-space:nowrap;border:1px solid var(--line);background:#111116;color:var(--muted);border-radius:999px;padding:9px 15px}.tab.active{background:#241f31;color:var(--accent);border-color:#55486f}
+    .chapter{padding:15px;margin-bottom:10px}.chaptertop{display:flex;align-items:center;justify-content:space-between;gap:12px}.chapter h3{font-size:15px;margin:0}.chapterdetails{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:13px}.check{font-size:11px;color:var(--muted);display:flex;gap:6px;align-items:center}.check input{accent-color:var(--accent)}
+    .buddygrid{grid-template-columns:1fr 1fr}.note{border:1px solid #3a334b;background:#171420;padding:13px;border-radius:13px;color:#c7bfdc;font-size:12px}.statusdot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--good);margin-right:6px}.bottomnav{position:fixed;z-index:10;bottom:0;left:0;right:0;padding:10px max(14px,env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom));background:#0b0b10ed;backdrop-filter:blur(18px);border-top:1px solid var(--line);display:flex;justify-content:center;gap:8px}.navbtn{width:min(22vw,150px);border:0;background:transparent;color:var(--muted);padding:8px 4px;border-radius:13px;font-size:11px}.navbtn .navicon{display:block;font-size:19px;margin-bottom:2px}.navbtn.active{color:var(--accent);background:#211c2c}
+    .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#292436;border:1px solid #55486f;color:white;border-radius:12px;padding:10px 16px;z-index:30;display:none;max-width:90vw;font-size:13px}.footerdragon{display:none}
+    .modal{position:fixed;inset:0;background:#000a;display:none;align-items:center;justify-content:center;padding:18px;z-index:20}.modal.show{display:flex}.modalbox{width:min(460px,100%);background:#14131b;border:1px solid var(--line);border-radius:20px;padding:20px}.modalbox h3{margin-top:0}.modalactions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+    @media(max-width:700px){.app{padding:16px 14px 100px}.stats{gap:9px}.stats .card{padding:13px}.big{font-size:24px}.subjects{gap:9px}.subject{padding:14px;min-height:128px}.maincols,.buddygrid{grid-template-columns:1fr}.hero{padding:10px 0 18px}.hero .logo{width:62px;height:62px}.hero h1{font-size:22px}.chapterdetails{grid-template-columns:repeat(2,1fr)}.chapterdetails .check:last-child{grid-column:span 2}.card{padding:16px}}
+    @media(max-width:370px){.stats{grid-template-columns:1fr 1fr}.stats .card:last-child{grid-column:span 2}.subjects{grid-template-columns:1fr}.subject{min-height:auto}.subject .symbol{float:right}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 100 100" aria-label="Focusroom celestial logo">
+        <g fill="none" stroke="#d8d0f4" stroke-width="1.7" stroke-linecap="round">
+          <circle cx="50" cy="43" r="15" opacity=".16"/><path d="M50 4V25M50 61V94M7 43H29M71 43H93"/>
+          <path d="M50 18L53 34 50 29 47 34Z M50 68L53 52 50 57 47 52Z"/>
+          <path d="M34 43c5-9 10-13 16-13s11 4 16 13c-5 9-10 13-16 13s-11-4-16-13Z" opacity=".75"/>
+          <path d="M55 43a13 13 0 1 0 13 13 11 11 0 0 1-13-13Z" stroke-width="2"/>
+          <path d="M50 76l3 5-3 5-3-5Z"/>
+        </g>
+      </svg>
+      <div><div class="brandname">FOCUSROOM</div><div class="tag">STUDY · TRACK · ACHIEVE</div></div>
+    </div>
+    <div class="pill" id="datePill">Today</div>
+  </header>
+
+  <main>
+    <section class="section active" id="home">
+      <div class="hero">
+        <svg class="logo" viewBox="0 0 100 100" aria-hidden="true">
+          <g fill="none" stroke="#d8d0f4" stroke-width="1.5" stroke-linecap="round">
+            <path d="M50 2V25M50 61V98M2 43H25M75 43H98M18 11L34 29M82 11L66 29M18 75L34 58M82 75L66 58"/>
+            <circle cx="50" cy="43" r="18" opacity=".18"/><path d="M55 43a15 15 0 1 0 15 15 13 13 0 0 1-15-15Z" stroke-width="2"/>
+            <path d="M50 76l3 5-3 5-3-5Z"/>
+          </g>
+        </svg>
+        <h1>FOCUSROOM</h1><p>STUDY · TRACK · ACHIEVE</p>
+      </div>
+      <div class="grid stats">
+        <div class="card"><div class="eyebrow">Study today</div><div class="big" id="todayTime">0m</div><div class="small">of your daily target</div></div>
+        <div class="card"><div class="eyebrow">Tasks done</div><div class="big" id="taskCount">0 / 0</div><div class="small">today's checklist</div></div>
+        <div class="card"><div class="eyebrow">Syllabus</div><div class="big" id="overallProgress">0%</div><div class="small">all subjects</div></div>
+      </div>
+      <div class="grid subjects" id="subjectCards"></div>
+      <div class="grid maincols">
+        <div class="card">
+          <div class="cardhead"><div><div class="eyebrow">Daily checklist</div><strong>Today's tasks</strong></div><span class="small" id="taskSummary">0 done</span></div>
+          <div id="taskList"></div>
+          <div class="addrow"><input class="field" id="taskInput" placeholder="Add a task…" maxlength="90"><button class="btn primary" id="addTask">Add</button></div>
+        </div>
+        <div class="card timer">
+          <div class="cardhead"><div class="eyebrow">Focus session</div><span class="small" id="timerState">Ready</span></div>
+          <select class="field timerselect" id="timerSubject" aria-label="Choose subject"><option value="Physics">Physics</option><option value="Chemistry">Chemistry</option><option value="Maths">Maths</option></select>
+          <div class="clock" id="clock">25:00</div>
+          <div class="timerbuttons"><button class="btn primary" id="timerStart">Start focus</button><button class="btn" id="timerReset">Reset</button></div>
+          <div class="small" style="margin-top:13px">Study time is saved automatically while the timer runs.</div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:16px">
+        <div class="cardhead"><div class="eyebrow">Coming up</div><strong>Pre-board countdown</strong></div>
+        <div style="display:flex;align-items:baseline;gap:10px"><span class="big" id="countdown">—</span><span class="muted">days remaining</span></div>
+        <div class="small">Target date: <span id="targetLabel">16 December 2026</span> · Change it in Settings.</div>
+      </div>
+    </section>
+
+    <section class="section" id="chapters">
+      <h2 class="sectiontitle">Your syllabus</h2><p class="sectionintro">Track concepts, notes, practice, PYQs and revision chapter by chapter.</p>
+      <div class="tabs" id="subjectTabs"></div><div id="chapterList"></div>
+    </section>
+
+    <section class="section" id="buddy">
+      <h2 class="sectiontitle">Study Buddy</h2><p class="sectionintro">Create a private room and invite a study partner. Live syncing needs a free Supabase project.</p>
+      <div class="grid buddygrid">
+        <div class="card">
+          <div class="eyebrow">Private room</div><h3 style="margin:7px 0 12px">Your invite link</h3>
+          <input class="field" id="roomId" placeholder="Room code" aria-label="Room code">
+          <div class="addrow"><button class="btn primary" id="createRoom">Create room</button><button class="btn" id="copyInvite">Copy invite</button></div>
+          <p class="small" id="buddyStatus">Solo mode · invite links work locally until backend is connected.</p>
+        </div>
+        <div class="card">
+          <div class="eyebrow">Study status</div><h3 style="margin:7px 0 12px">Check-in</h3>
+          <p class="small">Share a simple “studying / finished” status with your room when connected. Camera check-ins are optional and never start without your permission.</p>
+          <div class="addrow"><button class="btn primary" id="shareStart">I'm studying</button><button class="btn" id="shareEnd">I'm done</button></div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:16px">
+        <div class="eyebrow">Optional camera check-in</div><h3 style="margin:7px 0">Your choice, every time</h3>
+        <p class="small">Camera preview stays on this device in this version. It is not streamed to your friend.</p>
+        <button class="btn" id="cameraBtn">Request camera permission</button>
+        <video id="cameraPreview" autoplay playsinline muted style="display:none;width:100%;max-height:260px;object-fit:cover;border-radius:14px;margin-top:12px;background:#050507"></video>
+      </div>
+      <div class="note" style="margin-top:16px">Privacy: no account is required for solo tracking. Your checklist and timer data stay in this browser. To sync rooms across devices, configure Supabase in Settings.</div>
+    </section>
+
+    <section class="section" id="stats">
+      <h2 class="sectiontitle">Study statistics</h2><p class="sectionintro">A simple view of your recorded study time and chapter progress.</p>
+      <div class="grid stats">
+        <div class="card"><div class="eyebrow">Today</div><div class="big" id="statToday">0m</div></div>
+        <div class="card"><div class="eyebrow">This week</div><div class="big" id="statWeek">0m</div></div>
+        <div class="card"><div class="eyebrow">Total tracked</div><div class="big" id="statTotal">0m</div></div>
+      </div>
+      <div class="card"><div class="eyebrow">Time by subject</div><div id="subjectTimeStats" style="margin-top:12px"></div></div>
+    </section>
+
+    <section class="section" id="settings">
+      <h2 class="sectiontitle">Settings</h2><p class="sectionintro">Set your target and optional live buddy connection.</p>
+      <div class="card">
+        <label class="eyebrow" for="dailyTarget">Daily study target (hours)</label><input class="field" type="number" id="dailyTarget" min="1" max="16" value="8" style="margin:8px 0 16px">
+        <label class="eyebrow" for="targetDate">Pre-board date</label><input class="field" type="date" id="targetDate" value="2026-12-16" style="margin:8px 0 16px">
+        <button class="btn primary" id="saveSettings">Save settings</button>
+      </div>
+      <div class="card" style="margin-top:16px">
+        <div class="eyebrow">Optional live sync</div><h3 style="margin:7px 0">Supabase connection</h3>
+        <p class="small">Create a free Supabase project, then paste its Project URL and publishable/anon key. Never paste a service-role key here.</p>
+        <input class="field" id="supabaseUrl" placeholder="https://your-project.supabase.co" style="margin:5px 0">
+        <input class="field" id="supabaseKey" placeholder="Publishable / anon key" style="margin:5px 0">
+        <div class="addrow"><button class="btn primary" id="connectBackend">Connect</button><button class="btn" id="disconnectBackend">Disconnect</button></div>
+        <p class="small" id="backendStatus">Not connected.</p>
+      </div>
+      <div class="card" style="margin-top:16px">
+        <div class="eyebrow">Your data</div><p class="small">Your data is stored in this browser. Clearing browser storage will erase local progress. Export a backup before changing devices.</p>
+        <div class="addrow"><button class="btn" id="exportData">Export backup</button><label class="btn" for="importFile">Import backup</label><input type="file" id="importFile" accept="application/json" hidden></div>
+        <button class="btn ghost" id="resetData" style="margin-top:12px;color:var(--danger)">Reset all local data</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<nav class="bottomnav" aria-label="Main navigation">
+  <button class="navbtn active" data-page="home"><span class="navicon">⌂</span>Home</button>
+  <button class="navbtn" data-page="chapters"><span class="navicon">▤</span>Chapters</button>
+  <button class="navbtn" data-page="buddy"><span class="navicon">♧</span>Buddy</button>
+  <button class="navbtn" data-page="stats"><span class="navicon">▥</span>Stats</button>
+  <button class="navbtn" data-page="settings"><span class="navicon">⚙</span>Settings</button>
+</nav>
+<div class="toast" id="toast" role="status"></div>
+<div class="modal" id="confirmModal"><div class="modalbox"><h3>Reset local data?</h3><p class="small">This permanently clears your tasks, chapter progress and study-time history from this browser.</p><div class="modalactions"><button class="btn" id="cancelReset">Cancel</button><button class="btn primary" id="confirmReset">Reset</button></div></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(() => {
+'use strict';
+const $ = id => document.getElementById(id);
+const subjects = {
+ Physics: ['Electric Charges and Fields','Electrostatic Potential and Capacitance','Current Electricity','Moving Charges and Magnetism','Magnetism and Matter','Electromagnetic Induction','Alternating Current','Electromagnetic Waves','Ray Optics and Optical Instruments','Wave Optics','Dual Nature of Radiation and Matter','Atoms','Nuclei','Semiconductor Electronics'],
+ Chemistry: ['Solutions','Electrochemistry','Chemical Kinetics','The d- and f-Block Elements','Coordination Compounds','Haloalkanes and Haloarenes','Alcohols, Phenols and Ethers','Aldehydes, Ketones and Carboxylic Acids','Amines','Biomolecules'],
+ Maths: ['Relations and Functions','Inverse Trigonometric Functions','Matrices','Determinants','Continuity and Differentiability','Applications of Derivatives','Integrals','Applications of Integrals','Differential Equations','Vector Algebra','Three Dimensional Geometry','Linear Programming','Probability']
+};
+const labels=['Concepts / lectures','Short notes','Practice / DPP','PYQs','Revision'];
+const todayKey=()=>new Date().toISOString().slice(0,10);
+const defaultData=()=>({chapters:{},tasks:{[todayKey()]:[]},times:{},settings:{dailyTarget:8,targetDate:'2026-12-16'},roomId:'',supabaseUrl:'',supabaseKey:''});
+let data=load();
+function load(){try{return {...defaultData(),...JSON.parse(localStorage.getItem('focusroom_v2')||'{}')}}catch(e){return defaultData()}}
+function save(){localStorage.setItem('focusroom_v2',JSON.stringify(data))}
+function toast(msg){const t=$('toast');t.textContent=msg;t.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>t.style.display='none',2600)}
+function chapterState(s,c){const k=s+'|'+c;if(!data.chapters[k])data.chapters[k]=[false,false,false,false,false];return data.chapters[k]}
+function taskArr(){if(!data.tasks[todayKey()])data.tasks[todayKey()]=[];return data.tasks[todayKey()]}
+function minsLabel(m){m=Math.round(m||0);return m>=60?`${Math.floor(m/60)}h ${m%60}m`:`${m}m`}
+function allCounts(){let done=0,total=0;Object.entries(subjects).forEach(([s,cs])=>cs.forEach(c=>{const a=chapterState(s,c);done+=a.filter(Boolean).length;total+=5}));return {done,total,pct:total?Math.round(done/total*100):0}}
+function subjectPct(s){let d=0,t=0;subjects[s].forEach(c=>{const a=chapterState(s,c);d+=a.filter(Boolean).length;t+=5});return t?Math.round(d/t*100):0}
+function dayMins(day){return Object.values(data.times[day]||{}).reduce((a,b)=>a+b,0)}
+function renderHome(){
+ const tasks=taskArr(),done=tasks.filter(t=>t.done).length;
+ $('todayTime').textContent=minsLabel(dayMins(todayKey()));$('taskCount').textContent=`${done} / ${tasks.length}`;$('taskSummary').textContent=`${done} done`;
+ $('overallProgress').textContent=allCounts().pct+'%';
+ $('taskList').innerHTML=tasks.length?tasks.map((t,i)=>`<div class="taskrow ${t.done?'done':''}"><input type="checkbox" data-task="${i}" ${t.done?'checked':''}><span class="tasklabel">${escapeHtml(t.text)}</span><button class="iconbtn" data-delete-task="${i}" aria-label="Delete task">×</button></div>`).join(''):'<p class="small">No tasks yet. Add one above.</p>';
+ $('subjectCards').innerHTML=Object.keys(subjects).map((s,i)=>`<div class="card subject" data-goto-subject="${s}"><div class="symbol">${['⚛','⚗','∑'][i]}</div><h3>${s}</h3><div class="count">${subjectPct(s)}% complete · ${subjects[s].length} chapters</div><div class="progress"><span style="width:${subjectPct(s)}%"></span></div></div>`).join('');
+ $('countdown').textContent=Math.max(0,Math.ceil((new Date(data.settings.targetDate+'T00:00:00')-new Date(new Date().toDateString()))/86400000));
+ $('targetLabel').textContent=new Date(data.settings.targetDate+'T00:00:00').toLocaleDateString(undefined,{day:'numeric',month:'long',year:'numeric'});
+ $('datePill').textContent=new Date().toLocaleDateString(undefined,{weekday:'short',day:'numeric',month:'short'});
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+let activeSubject='Physics';
+function renderChapters(){
+ $('subjectTabs').innerHTML=Object.keys(subjects).map(s=>`<button class="tab ${s===activeSubject?'active':''}" data-subject="${s}">${s}</button>`).join('');
+ $('chapterList').innerHTML=subjects[activeSubject].map(c=>{const a=chapterState(activeSubject,c),p=Math.round(a.filter(Boolean).length/5*100);return `<div class="card chapter"><div class="chaptertop"><h3>${escapeHtml(c)}</h3><span class="small">${p}%</span></div><div class="progress"><span style="width:${p}%"></span></div><div class="chapterdetails">${labels.map((l,i)=>`<label class="check"><input type="checkbox" data-chapter="${escapeHtml(c)}" data-index="${i}" ${a[i]?'checked':''}>${l}</label>`).join('')}</div></div>`}).join('');
+}
+function renderStats(){
+ const keys=Object.keys(data.times).sort();const today=dayMins(todayKey());const week=keys.filter(k=>(new Date(todayKey())-new Date(k))/86400000<7).reduce((n,k)=>n+dayMins(k),0);const total=keys.reduce((n,k)=>n+dayMins(k),0);
+ $('statToday').textContent=minsLabel(today);$('statWeek').textContent=minsLabel(week);$('statTotal').textContent=minsLabel(total);
+ $('subjectTimeStats').innerHTML=Object.keys(subjects).map(s=>{const n=keys.reduce((a,k)=>a+(data.times[k]?.[s]||0),0);const max=Math.max(1,...Object.keys(subjects).map(x=>keys.reduce((a,k)=>a+(data.times[k]?.[x]||0),0)));return `<div style="margin:13px 0"><div class="cardhead"><span>${s}</span><span class="small">${minsLabel(n)}</span></div><div class="progress"><span style="width:${Math.round(n/max*100)}%"></span></div></div>`}).join('');
+}
+function renderAll(){renderHome();renderChapters();renderStats();$('dailyTarget').value=data.settings.dailyTarget;$('targetDate').value=data.settings.targetDate;$('roomId').value=data.roomId||'';$('supabaseUrl').value=data.supabaseUrl||'';$('supabaseKey').value=data.supabaseKey||''}
+function page(name){document.querySelectorAll('.section').forEach(x=>x.classList.toggle('active',x.id===name));document.querySelectorAll('.navbtn').forEach(x=>x.classList.toggle('active',x.dataset.page===name));if(name==='stats')renderStats();window.scrollTo(0,0)}
+document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',()=>page(b.dataset.page)));
+document.addEventListener('click',e=>{
+ const goto=e.target.closest('[data-goto-subject]');if(goto){activeSubject=goto.dataset.gotoSubject;renderChapters();page('chapters')}
+ const tab=e.target.closest('[data-subject]');if(tab){activeSubject=tab.dataset.subject;renderChapters()}
+ const del=e.target.closest('[data-delete-task]');if(del){taskArr().splice(+del.dataset.deleteTask,1);save();renderHome()}
+});
+document.addEventListener('change',e=>{
+ if(e.target.matches('[data-task]')){taskArr()[+e.target.dataset.task].done=e.target.checked;save();renderHome()}
+ if(e.target.matches('[data-chapter]')){const a=chapterState(activeSubject,e.target.dataset.chapter);a[+e.target.dataset.index]=e.target.checked;save();renderAll()}
+});
+$('addTask').onclick=()=>{const v=$('taskInput').value.trim();if(!v)return;taskArr().push({text:v,done:false});$('taskInput').value='';save();renderHome()};
+$('taskInput').addEventListener('keydown',e=>{if(e.key==='Enter')$('addTask').click()});
+$('saveSettings').onclick=()=>{data.settings.dailyTarget=Math.min(16,Math.max(1,+$('dailyTarget').value||8));data.settings.targetDate=$('targetDate').value||'2026-12-16';save();renderAll();toast('Settings saved')};
+
+// Focus timer: records actual elapsed seconds, including partial sessions.
+let remaining=1500,running=false,interval=null,lastTick=0,elapsedSec=0;
+function clock(){const m=Math.floor(remaining/60),s=remaining%60;$('clock').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')}
+function recordSeconds(sec){if(sec<=0)return;const day=todayKey(),sub=$('timerSubject').value;data.times[day]??={};data.times[day][sub]=(data.times[day][sub]||0)+sec/60;save();renderHome()}
+function tick(){const now=Date.now(),delta=Math.max(0,Math.floor((now-lastTick)/1000));lastTick=now;if(delta){remaining=Math.max(0,remaining-delta);elapsedSec+=delta;clock();if(elapsedSec>=60){recordSeconds(1);elapsedSec-=60}}if(remaining===0){stopTimer();if(elapsedSec){recordSeconds(elapsedSec/60);elapsedSec=0}toast('Focus session complete');$('timerState').textContent='Complete'}}
+function stopTimer(){running=false;clearInterval(interval);interval=null;$('timerStart').textContent='Resume';$('timerState').textContent='Paused'}
+$('timerStart').onclick=()=>{if(running){stopTimer();return}running=true;lastTick=Date.now();$('timerStart').textContent='Pause';$('timerState').textContent='Focusing';interval=setInterval(tick,500)};
+$('timerReset').onclick=()=>{if(running)stopTimer();if(elapsedSec){recordSeconds(elapsedSec/60);elapsedSec=0}remaining=1500;clock();$('timerStart').textContent='Start focus';$('timerState').textContent='Ready'};
+clock();
+
+// Buddy: invite codes work as room identifiers; realtime requires configured Supabase project.
+let sb=null,channel=null;
+function roomCode(){return Math.random().toString(36).slice(2,8).toUpperCase()}
+$('createRoom').onclick=()=>{data.roomId=roomCode();save();$('roomId').value=data.roomId;toast('Private room created')};
+$('copyInvite').onclick=async()=>{const code=$('roomId').value.trim();if(!code){toast('Create or enter a room code first');return}data.roomId=code;save();const url=new URL(location.href);url.searchParams.set('room',code);try{await navigator.clipboard.writeText(url.href);toast('Invite link copied')}catch(e){toast('Copy unavailable — copy the room link from the address bar') }};
+function joinRoom(){const q=new URLSearchParams(location.search).get('room');if(q){data.roomId=q;save();$('roomId').value=q;}}
+function sendBuddy(status){if(!data.roomId){toast('Create a room first');return}if(!channel){toast('Live sync is not connected. Configure Supabase in Settings.');return}channel.send({type:'broadcast',event:'study-status',payload:{status,at:new Date().toISOString()}});toast('Study status shared')}
+$('shareStart').onclick=()=>sendBuddy('studying');$('shareEnd').onclick=()=>sendBuddy('finished');
+$('connectBackend').onclick=async()=>{
+ data.supabaseUrl=$('supabaseUrl').value.trim();data.supabaseKey=$('supabaseKey').value.trim();save();
+ if(!window.supabase||!data.supabaseUrl||!data.supabaseKey){$('backendStatus').textContent='Enter a valid project URL and publishable/anon key.';return}
+ try{sb=window.supabase.createClient(data.supabaseUrl,data.supabaseKey);if(!data.roomId)data.roomId=roomCode();$('roomId').value=data.roomId;channel=sb.channel('focusroom-'+data.roomId,{config:{broadcast:{self:false}}});channel.on('broadcast',{event:'study-status'},({payload})=>{toast('Buddy is '+payload.status)});await channel.subscribe();$('backendStatus').textContent='Connected to room '+data.roomId; $('buddyStatus').textContent='Live room connected · '+data.roomId;save();toast('Buddy room connected')}
+ catch(e){$('backendStatus').textContent='Connection failed: '+e.message}
+};
+$('disconnectBackend').onclick=async()=>{if(channel&&sb)await sb.removeChannel(channel);channel=null;sb=null;$('backendStatus').textContent='Disconnected.';toast('Disconnected')};
+joinRoom();
+
+// Camera is explicitly local-only; no media is uploaded or sent.
+let cameraStream=null;
+$('cameraBtn').onclick=async()=>{const video=$('cameraPreview');if(cameraStream){cameraStream.getTracks().forEach(t=>t.stop());cameraStream=null;video.srcObject=null;video.style.display='none';$('cameraBtn').textContent='Request camera permission';return}
+ if(!navigator.mediaDevices?.getUserMedia){toast('Camera is not available in this browser/context');return}
+ try{cameraStream=await navigator.mediaDevices.getUserMedia({video:true,audio:false});video.srcObject=cameraStream;video.style.display='block';$('cameraBtn').textContent='Turn camera off';}
+ catch(e){toast('Camera permission was not granted')}
+};
+$('exportData').onclick=()=>{const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='focusroom-backup.json';a.click();URL.revokeObjectURL(a.href)};
+$('importFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const parsed=JSON.parse(await f.text());if(!parsed||typeof parsed!=='object')throw Error();data={...defaultData(),...parsed};save();renderAll();toast('Backup imported')}catch(err){toast('That backup file could not be read')}e.target.value=''};
+$('resetData').onclick=()=>$('confirmModal').classList.add('show');$('cancelReset').onclick=()=>$('confirmModal').classList.remove('show');$('confirmReset').onclick=()=>{localStorage.removeItem('focusroom_v2');data=defaultData();$('confirmModal').classList.remove('show');renderAll();toast('Local data reset')};
+
+// Install support: valid manifest + relative service-worker scope for project pages.
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;});
+if('serviceWorker' in navigator && location.protocol.startsWith('http')){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{scope:'./'}).catch(()=>{}))}
+renderAll();
+})();
+</script>
+</body>
+</html>
